@@ -13,28 +13,31 @@ auto_cancel:
   queued:
     when: branch = 'main'
 blocks:
-  - name: Import
+  - name: Code Signing
     dependencies: []
     task:
       jobs:
-        - name: GPG keys
+        - name: GPG file
           commands:
             - checkout
             - gpg --import /home/semaphore/public.key
             - gpg --import /home/semaphore/private.key
             - cd 1-signing
             - gpg --output artifact.txt.sig --detach-sign artifact.txt
+            - gpg --verify artifact.txt.sig artifact.txt
             - artifact push workflow artifact.txt
       secrets:
         - name: GPG-Roman
-  - name: Generate
+  - name: Generate SBOM
     dependencies:
-      - Import
+      - Code Signing
     task:
       jobs:
-        - name: Verify
+        - name: SBOM
           commands:
-            - cd 1-signing
-            - gpg --verify artifact.txt.sig artifact.txt
+            - cd 2-sbom
+            - pip install cyclonedx-bom
+            - cyclonedx-py requirements -o bom.json
+            - artifact push workflow bom.json
       secrets:
         - name: GPG-Roman
