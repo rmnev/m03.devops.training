@@ -83,6 +83,8 @@ blocks:
             - cd 5-dast
             - sudo apt-get install -y wapiti
             - 'export PATH="$HOME/.local/bin:$PATH"'
+            - pip install --user gunicorn
+            - 'export PATH="$HOME/.local/bin:$PATH"'
             - 'gunicorn -b 0:0:0:0:4000 app:app --daemon'
             - sleep 5
             - 'wapiti -u http://localhost:4000 -f html'
