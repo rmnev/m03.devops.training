@@ -71,4 +71,19 @@ blocks:
             - cd 4-sast
             - pip install --user bandit
             - 'export PATH="$HOME/.local/bin:$PATH"'
-            - bandit -r vulnerable_script.py
+            - bandit -r vulnerable_script.py || true
+  - name: DAST testing
+    dependencies:
+      - SAST testing
+    task:
+      jobs:
+        - name: DAST
+          commands:
+            - checkout
+            - cd 5-dast
+            - pip install --user wapiti
+            - 'export PATH="$HOME/.local/bin:$PATH"'
+            - 'gunicorn -b 0:0:0:0:4000 app:app --daemon'
+            - sleep 5
+            - 'wapiti -u http://localhost:4000 -f html'
+            - artifact push workflow /root/.wapiti/generated_report
