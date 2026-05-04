@@ -52,6 +52,7 @@ blocks:
       jobs:
         - name: Scanning
           commands:
+            - sudo apt update && sudo apt install -y python3.12-venv
             - checkout
             - cd 3-dependency-scanning
             - pip install --user pip-audit
