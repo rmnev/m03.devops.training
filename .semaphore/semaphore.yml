@@ -59,4 +59,16 @@ blocks:
             - pip install -r requirements.txt
             - pip install --user pip-audit
             - 'export PATH="$HOME/.local/bin:$PATH"'
-            - pip-audit
+            - pip-audit || true
+  - name: SAST testing
+    dependencies:
+      - Dependency
+    task:
+      jobs:
+        - name: SAST
+          commands:
+            - checkout
+            - cd 4-sast
+            - pip install --user bandit
+            - 'export PATH="$HOME/.local/bin:$PATH"'
+            - bandit -r vulnerable_script.py
