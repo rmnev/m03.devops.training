@@ -19,10 +19,10 @@ blocks:
       jobs:
         - name: GPG keys
           commands:
-            - gpg --import /root/public.key
-            - gpg --import /root/private.key
+            - gpg --import /home/semaphore/public.key
+            - gpg --import /home/semaphore/private.key
       secrets:
-        - name: GPG-keys
+        - name: GPG-Roman
   - name: "\U0001F680 Deploy"
     dependencies:
       - Import
