@@ -43,3 +43,17 @@ blocks:
             - artifact push workflow bom.json
       secrets:
         - name: GPG-Roman
+  - name: Dependency
+    dependencies:
+      - Generate SBOM
+    task:
+      secrets:
+        - name: GPG-Roman
+      jobs:
+        - name: Scanning
+          commands:
+            - checkout
+            - cd 3-dependency-scanning
+            - pip install --user pip-audit
+            - 'export PATH="$HOME/.local/bin:$PATH"'
+            - pip-audit -r requirements.txt
