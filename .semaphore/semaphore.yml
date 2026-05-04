@@ -52,9 +52,9 @@ blocks:
       jobs:
         - name: Scanning
           commands:
-            - sudo apt update && sudo apt install -y python3.12-venv
             - checkout
             - cd 3-dependency-scanning
-            - pip install --user pip-audit
+            - python -m pip install --upgrade pip
+            - pip install pip-audit
             - 'export PATH="$HOME/.local/bin:$PATH"'
             - pip-audit -r requirements.txt
