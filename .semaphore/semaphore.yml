@@ -35,6 +35,7 @@ blocks:
       jobs:
         - name: SBOM
           commands:
+            - checkout
             - cd 2-sbom
             - pip install cyclonedx-bom
             - cyclonedx-py requirements -o bom.json
