@@ -33,4 +33,7 @@ blocks:
             - checkout
             - cd 1-signing
             - gpg --output artifact.txt.sig --detach-sign artifact.txt
+            - gpg --verify artifact.txt.sig artifact.txt
             - artifact push workflow artifact.txt
+      secrets:
+        - name: GPG-Roman
