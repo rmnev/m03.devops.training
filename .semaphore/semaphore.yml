@@ -81,7 +81,7 @@ blocks:
           commands:
             - checkout
             - cd 5-dast
-            - pip install --user wapiti
+            - sudo apt-get install -y wapiti
             - 'export PATH="$HOME/.local/bin:$PATH"'
             - 'gunicorn -b 0:0:0:0:4000 app:app --daemon'
             - sleep 5
